@@ -1,3 +1,4 @@
+package model;
 public class ProductItem{
     private String id = "";
     ProductItem(String id){
