@@ -1,7 +1,14 @@
+package controller;
 class MainOrder{
+    RobotService robot;
+
+    MainOrder(){
+        robot = new RobotService();
+    }
+
     // 0XXXX Retrieve a product id XXXX
     public void retrieveProduct(ProductItem item){
-
+        robot.pick(item);
     }
     
     // 1XXXX Store a product id XXXX

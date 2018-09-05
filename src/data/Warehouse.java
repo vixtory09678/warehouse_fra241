@@ -1,27 +1,37 @@
-import java.util.*;
-import model.*;
+package data;
 
+import java.util.*;
+import model.ProductItem;
+
+@SuppressWarnings("unchecked")
 public class Warehouse{
 
-    private HashMap<String,ProductItem>[] itemStore;
+    private List<HashMap<String,ProductItem>> listItemStore;
     private int maxRows;
 
     public Warehouse () {
     }
 
-    public void bulid(int rows , int grid){
-        if(itemStore != null) return;
+    public void build(int rows , int grid){
+        if(listItemStore.size() > 0) return;
         this.maxRows = rows;
 
-        itemStore = new HashMap<String,ProductItem>()[rows];
+        listItemStore = new ArrayList<HashMap < String,ProductItem > >();
+        setupStock(maxRows);
     }
 
     public void addItem(int rows, ProductItem item){
         if(rows > -1 && rows <= maxRows)
-            itemStore[rows].put(item.getId() , item.getId());
+            listItemStore.get(rows).put(item.getId() , item);
     }
 
     public boolean isItem(int rows, ProductItem item){
-        itemStore[rows].containsKey(item.getId())
+        return listItemStore.get(rows).containsKey(item.getId());
+    }
+
+    private void setupStock(int rows){
+        for (int i = 0; i < rows; i++) {
+            listItemStore.add(new HashMap<String,ProductItem>());
+        }
     }
 }

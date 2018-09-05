@@ -1,16 +1,13 @@
 import java.util.*;
+import data.Warehouse;
 
-public class Main{
+public class Main extends BaseClass{
     public static void main (String args[]) {
         Scanner sc = new Scanner(System.in);
-
-        System.out.print("input command ");
+        print("input command ");
         String command = getCommand(sc);
-        
-        System.out.println("data: " + command);
+        println("data: " + command);
     }
 
-    private static String getCommand(Scanner sc){
-        return sc.nextLine().toUpperCase();
-    }
+    
 }
