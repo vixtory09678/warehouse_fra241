@@ -1,4 +1,5 @@
 package service;
+
 public class RobotService extends BaseClass{
 
     private final int WAREHOUSE_COUNT = 5;
