@@ -16,7 +16,5 @@ public class Main extends BaseClass {
             println("posX: " + codeId.getPositionX());
             println("posY: " + codeId.getPositionY());
         }
-
     }
-
 }
