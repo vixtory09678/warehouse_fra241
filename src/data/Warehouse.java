@@ -3,52 +3,78 @@ package data;
 import java.util.*;
 import model.ProductItem;
 
-public class Warehouse{
+public class Warehouse {
 
-    private List<HashMap<String,ProductItem>> listItemStore;
+    private List<HashMap<String, ProductItem>> listItemStore;
     private int maxRows;
-    private int maxGrid;
+    private int maxGridX;
+    private int maxGridY;
 
-    public Warehouse () {
+    public Warehouse() {
     }
 
     // build warehouse
-    public void build(int rows, int grid){
-        if(listItemStore.size() > 0) return;
+    public void build(int rows, int gridX, int gridY) {
+        if (listItemStore.size() > 0)
+            return;
         this.maxRows = rows;
-        this.maxGrid = grid;
+        this.maxGridX = gridX;
+        this.maxGridY = gridY;
 
-        listItemStore = new ArrayList<HashMap < String,ProductItem > >();
+        listItemStore = new ArrayList<HashMap<String, ProductItem>>();
         setupStock(maxRows);
     }
 
-    // add item to stock
-    public String addItem(int rows, ProductItem item){
-        if(rows < 0 || rows > maxRows) return;
+    public int getMaxGridX() {
+        return this.maxGridX;
+    }
 
-        if(listItemStore.get(rows).size() > maxGrid){
+    public int getMaxGridY() {
+        return this.maxGridY;
+    }
+
+    // add item to stock
+    public String addItem(int rows, ProductItem item) {
+        if (rows < 0 || rows > maxRows)
+            return MsgProcess.ROWS_ERR;
+
+        if (listItemStore.get(rows).size() > maxGrid) {
             return MsgProcess.FULL_ERR;
         }
-        
-        listItemStore.get(rows).put(item.getId() , item);
 
+        if (listItemStore.get(rows).containsKey(item.getId()) == true)
+            return MsgProcess.SLOT_OCCUPIED;
+
+        listItemStore.get(rows).put(item.getId(), item);
         return MsgProcess.SUCCESS;
     }
 
-    public String retieveItem(int rows, ProductItem item){
+    public ProductItem retrieveItem(int rows, ProductItem item) {
+        if (rows < 0 || rows > maxRows)
+            return MsgProcess.ROWS_ERR;
 
+        if (isItem(rows, item)) {
+            listItemStore.get(rows).remove(item);
+            return item;
+        } else {
+            return null;
+        }
     }
 
-    // check item available 
-    public boolean isItem(int rows, ProductItem item){
+    public HashMap<String, ProductItem> getAllItemInRows(int rows) {
+        return listItemStore.get(rows);
+    }
+
+    // check item available
+    public boolean isItem(int rows, ProductItem item) {
         // if(rows < 0 || rows > maxRows) return;
         return listItemStore.get(rows).containsKey(item.getId());
     }
 
     // setup stock
-    private void setupStock(int rows){
+    private void setupStock(int rows) {
         for (int i = 0; i < rows; i++) {
-            listItemStore.add(new HashMap<String,ProductItem>());
+            listItemStore.add(new HashMap<String, ProductItem>());
         }
     }
 }
